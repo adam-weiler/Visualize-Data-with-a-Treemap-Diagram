@@ -3,8 +3,8 @@ console.clear();
 const url =
   'https://cdn.rawgit.com/freeCodeCamp/testable-projects-fcc/a80ce8f9/src/data/tree_map/video-game-sales-data.json'; //Data source.
 
-const svgWidth = 1200; //Width of SVG.
-const svgHeight = 500; //Height of SVG.
+const svgWidth = 960; //Width of SVG.
+const svgHeight = 570; //Height of SVG.
 // const svgPadding = 70; //Padding from edge of SVG.
 
 const svgVerticalPadding = 140; //Padding from top/bottom edge of SVG.
@@ -31,19 +31,30 @@ let tooltipDiv = d3
 // ];
 
 // //#2f80ed to #9cecfb,  #FBD786,  #f5af19 to #f12711
-const colours = [
-  '#2f80ed',
-  '#009ff8',
-  '#27bbfb',
-  '#65d5fa',
-  '#9cecfb',
-  '#FBD786',
-  '#f5af19',
-  '#f69400',
-  '#f67800',
-  '#f55600',
-  '#f12711'
-];
+const colours = {
+  '2600': '#f1f49e', // Yellow
+
+  PC: '#9ef0f4', // Grey?
+
+  NES: '#bfd6f6', // Blue
+  GB: '#e4bff6', // Purple
+  SNES: '#92b8ec', // Blue
+  N64: '#679be2', // Blue
+  GBA: '#d39df4', // Purple
+  DS: '#c37cf2', // Purple
+  Wii: '#3b7dd8', //Blue
+  '3DS': '#b35bf0', // Purple
+
+  PS: '#f6bfbf', // Red
+  PS2: '#f49e9e', // Red
+  PSP: '#f4cb9e', // Orange
+  PS3: '#f27e7e', // Red
+  PS4: '#f05b5b', // Red
+
+  XB: '#c7f6bf', //Green
+  X360: '#82e788', //Green
+  XOne: '#3bd84e' //Green
+};
 
 const treemap = d3.treemap().size([svgWidth, svgHeight]);
 
@@ -166,7 +177,8 @@ d3.json(url, (err, data) => {
       return d.data.value;
     })
     .attr('fill', d => {
-      return colours(d.data.category);
+      return colours[d.data.category];
+      //   return colours(d.data.category);
     })
     .on('mouseover', d => {
       //When user mouse's over a rectangle.
@@ -178,8 +190,8 @@ d3.json(url, (err, data) => {
       tooltipDiv
         .html(
           `<h2>Name: ${d.data.name}</h2>
-					 <p>Category: ${d.data.category}/p>
-					 <p>Value ${d.data.value}℃</p>`
+					 <p>Category: ${d.data.category}</p>
+					 <p>${d.data.value} million copies sold</p>`
         )
         .style('left', d3.event.pageX + 25 + 'px') //Div appears to the right of the rectangle.
         .style('top', d3.event.pageY - 10 + 'px');
@@ -188,6 +200,31 @@ d3.json(url, (err, data) => {
       //When user mouses's away from rectangle.
       tooltipDiv.style('opacity', 0); //Tooltip div is made invisible.
     });
+
+  // Is this needed? What does it do?
+  cell
+    .append('text')
+    .attr('class', 'tile-text')
+    .selectAll('tspan')
+    .data(d => {
+      return d.data.name.split(/(?=[A-Z][^A-Z])/g);
+    })
+    .enter()
+    .append('tspan')
+    .attr('x', 4)
+    .attr('y', (d, i) => {
+      return 13 + i * 13;
+    })
+    .text(d => {
+      return d;
+    });
+
+  const categories = root.leaves().map(nodes => {
+    return nodes.data.category;
+  });
+  categories = categories.filter((category, index, self) => {
+    return self.indexOf(category) === index;
+  });
 
   //   svgContainer
   //     .append('text') //X-Axis label.
@@ -284,15 +321,15 @@ d3.json(url, (err, data) => {
   //     .attr('id', 'y-axis')
   //     .attr('transform', 'translate(' + svgHorizontalPadding + ',0)');
 
-  //   const svgLegend = d3
-  //     .select('body')
-  //     .append('svg')
-  //     .attr('class', 'svg-legend')
-  //     .attr('width', 450)
-  //     .attr('height', 100)
-  //     // .attr('x', svgHorizontalPadding)
-  //     // .attr('y', -400)
-  //     .attr('id', 'legend');
+  const svgLegend = d3
+    .select('body')
+    .append('svg')
+    .attr('class', 'svg-legend')
+    .attr('width', 450)
+    .attr('height', 100)
+    // .attr('x', svgHorizontalPadding)
+    // .attr('y', -400)
+    .attr('id', 'legend');
 
   //   const xScaleLegend = d3
   //     .scaleLinear()
@@ -304,11 +341,11 @@ d3.json(url, (err, data) => {
   //     return scaleLabel.toFixed(1);
   //   });
 
-  //   svgLegend
-  //     .append('g')
-  //     .attr('transform', 'translate(-23, 40)')
-  //     .attr('id', 'x-axislegend')
-  //     .call(xAxisLegend);
+  svgLegend
+    .append('g')
+    .attr('transform', 'translate(-23, 40)')
+    .attr('id', 'x-axislegend')
+    .call(xAxisLegend);
 
   //   svgLegend
   //     .selectAll('rect')
