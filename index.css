@@ -1,0 +1,60 @@
+html {
+	height: 100%;
+}
+
+body {
+	height: 100%;
+	margin: 0 auto;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	text-align: center;
+	background: #E0EAFC;
+	/* fallback for old browsers */
+	background: -webkit-linear-gradient(to bottom, #CFDEF3, #E0EAFC);
+	/* Chrome 10-25, Safari 5.1-6 */
+	background: linear-gradient(to bottom, #CFDEF3, #E0EAFC);
+	/* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+svg {
+	background: white;
+	margin-top: 10%;
+}
+
+#title {
+	font-size: 33px;
+	font-weight: bold;
+}
+
+#description {
+	font-size: 23px;
+	font-weight: bold;
+}
+
+.cell {
+	stroke: #FFF;
+	stroke-width: .1;
+}
+
+.cell:hover {
+	fill: #000 !important;
+}
+
+#tooltip {
+	border: black 1px solid;
+	position: absolute;
+	padding: 0 15px;
+	background: #9bf1ff;
+	/* fallback for old browsers */
+	background: -webkit-linear-gradient(to right, #9bf1ff, #CFDEF3);
+	/* Chrome 10-25, Safari 5.1-6 */
+	background: linear-gradient(to right, #9bf1ff, #CFDEF3);
+	/* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+	font-size: 18px;
+	pointer-event: none;
+	border-radius: 4px;
+}
+
+h2 {
+  font-size: 18px;
+}
